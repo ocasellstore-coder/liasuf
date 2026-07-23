@@ -403,6 +403,32 @@ const PHRASES = [
   { arabic: 'أَسْتَغْفِرُ اللَّهَ', meaning: 'I seek forgiveness from Allah', short: 'Astaghfirullah' },
 ];
 
+const LS_KEY = 'tasbih_state';
+
+function saveState() {
+  const toSave = {
+    phraseIdx: state.phraseIdx,
+    count:     state.count,
+    target:    state.target,
+    sets:      state.sets,
+    log:       state.log,
+  };
+  try { localStorage.setItem(LS_KEY, JSON.stringify(toSave)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    state.phraseIdx = saved.phraseIdx ?? 0;
+    state.count     = saved.count     ?? 0;
+    state.target    = saved.target    ?? 33;
+    state.sets      = saved.sets      ?? 0;
+    state.log       = saved.log       ?? [];
+  } catch(e) {}
+}
+
 let state = {
   phraseIdx: 0,
   count: 0,
@@ -428,11 +454,13 @@ function selectPhrase(i) {
   document.getElementById('phraseDisplay').textContent = PHRASES[i].arabic;
   document.getElementById('phraseMeaning').textContent = PHRASES[i].meaning;
   render();
+  saveState();
 }
 
 function setTarget(val) {
   state.target = parseInt(val);
   render();
+  saveState();
 }
 
 function tap() {
@@ -448,6 +476,7 @@ function tap() {
     completSet();
   } else {
     render();
+    saveState();
   }
 }
 
@@ -470,6 +499,7 @@ function completSet() {
 
   render();
   renderLog();
+  saveState();
 }
 
 function undo() {
@@ -478,12 +508,14 @@ function undo() {
   state.count = prev.count;
   state.sets  = prev.sets;
   render();
+  saveState();
 }
 
 function resetCurrent() {
   state.history = [];
   state.count = 0;
   render();
+  saveState();
 }
 
 function clearAll() {
@@ -493,6 +525,7 @@ function clearAll() {
   state.log   = [];
   render();
   renderLog();
+  saveState();
 }
 
 function render() {
@@ -541,9 +574,11 @@ document.addEventListener('keydown', e => {
   if (e.code === 'KeyZ' && (e.ctrlKey || e.metaKey)) undo();
 });
 
-// Init
-selectPhrase(0);
+// Init — load saved state, then render
+loadState();
+selectPhrase(state.phraseIdx);
+renderLog();
 </script>
 </body>
-  </html>
-  
+       </html>
+ 
