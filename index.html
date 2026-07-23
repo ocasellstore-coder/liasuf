@@ -333,6 +333,28 @@
   <!-- Phrase selector -->
   <div class="phrase-row" id="phraseRow"></div>
 
+ <!-- Controls -->
+    <div class="controls">
+      <button class="ctrl-btn"        onclick="undo()">↩ Undo</button>
+      <button class="ctrl-btn"        onclick="resetCurrent()">↺ Reset</button>
+      <button class="ctrl-btn danger" onclick="clearAll()">✕ Clear All</button>
+    </div>
+ 
+ <!-- Target picker -->
+    <div class="target-picker">
+      <span class="target-label">SET TARGET:</span>
+      <select class="target-select" id="targetSelect" onchange="setTarget(this.value)">
+        <option value="11">11</option>
+        <option value="33" selected>33</option>
+        <option value="99">99</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
+        <option value="5000">5000</option>
+        <option value="100000">100000</option>
+      </select>
+    </div>
+
   <!-- Main card -->
   <div class="card">
 
@@ -340,12 +362,7 @@
       <div class="phrase-display" id="phraseDisplay"></div>
       <div class="phrase-meaning" id="phraseMeaning"></div>
     </div>
-   <!-- Controls -->
-    <div class="controls">
-      <button class="ctrl-btn"        onclick="undo()">↩ Undo</button>
-      <button class="ctrl-btn"        onclick="resetCurrent()">↺ Reset</button>
-      <button class="ctrl-btn danger" onclick="clearAll()">✕ Clear All</button>
-    </div>
+   
 
     <!-- Counter ring -->
     <div class="counter-wrap" onclick="tap()">
@@ -369,20 +386,7 @@
 
     
 
-    <!-- Target picker -->
-    <div class="target-picker">
-      <span class="target-label">SET TARGET:</span>
-      <select class="target-select" id="targetSelect" onchange="setTarget(this.value)">
-        <option value="11">11</option>
-        <option value="33" selected>33</option>
-        <option value="99">99</option>
-        <option value="100">100</option>
-        <option value="500">500</option>
-        <option value="1000">1000</option>
-        <option value="5000">5000</option>
-        <option value="100000">100000</option>
-      </select>
-    </div>
+    
 
   </div>
 
