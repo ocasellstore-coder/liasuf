@@ -433,6 +433,14 @@ function loadState() {
   } catch(e) {}
 }
 
+// ── Haptic helpers ──
+function hapticShort() {
+  if (navigator.vibrate) navigator.vibrate(10);
+}
+function hapticBig() {
+  if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+}
+
 let state = {
   phraseIdx: 0,
   count: 0,
@@ -471,6 +479,13 @@ function tap() {
   state.history.push({count: state.count, sets: state.sets});
   state.count++;
 
+  // Haptic: big every 100, short otherwise
+  if (state.count % 100 === 0) {
+    hapticBig();
+  } else {
+    hapticShort();
+  }
+
   const num = document.getElementById('countNum');
   num.classList.remove('pulse');
   void num.offsetWidth;
@@ -494,6 +509,9 @@ function completSet() {
     time
   });
   state.count = 0;
+
+  // Big haptic on set completion
+  hapticBig();
 
   // Flash effect
   const flash = document.getElementById('flash');
@@ -584,5 +602,5 @@ selectPhrase(state.phraseIdx);
 renderLog();
 </script>
 </body>
-       </html>
- 
+ </html>
+         
